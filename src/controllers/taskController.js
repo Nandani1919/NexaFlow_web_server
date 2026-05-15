@@ -19,6 +19,18 @@ export const updateTask = asyncHandler(async (req, res) => {
   const previous = await Task.findById(req.params.id);
   if (!previous) return res.status(404).json({ message: "Task not found." });
 
+  if (req.user.role !== "admin") {
+    if (previous.assigneeId?.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Members can only update tasks assigned to them." });
+    }
+
+    const allowedKeys = new Set(["status"]);
+    const blockedKeys = Object.keys(payload).filter((key) => !allowedKeys.has(key));
+    if (blockedKeys.length > 0) {
+      return res.status(403).json({ message: "Members can only update task status." });
+    }
+  }
+
   const task = await Task.findByIdAndUpdate(req.params.id, payload, { new: true, runValidators: true });
   if (payload.status && payload.status !== previous.status) {
     await recordActivity({

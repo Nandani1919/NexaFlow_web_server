@@ -1,6 +1,6 @@
 import { env } from "../config/env.js";
 
-export const AUTH_COOKIE = "orbit_auth";
+export const AUTH_COOKIE = "nexaflow_auth";
 
 const isProduction = env.nodeEnv === "production";
 

@@ -17,14 +17,14 @@ import { workspaceRoutes } from "./routes/workspaceRoutes.js";
 export const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(cors({ origin: env.clientUrls, credentials: true }));
 app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: true, legacyHeaders: false }));
 
 app.get("/", (_req, res) => {
-  res.json({ name: "harmony-server", status: "ok", docs: "/api/health" });
+  res.json({ name: "nexaflow-server", status: "ok", docs: "/api/health" });
 });
 
 app.use("/api/health", healthRoutes);

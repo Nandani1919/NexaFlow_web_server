@@ -22,17 +22,35 @@ function daysFromNow(days) {
 
 export async function seedDatabase() {
   const existingUsers = await User.estimatedDocumentCount();
-  if (existingUsers > 0) return;
-
   const passwordHash = await User.hashPassword("demo1234");
+
+  if (existingUsers > 0) {
+    await Promise.all([
+      { name: "Alex Morgan", email: "alex@nexaflow.app", role: "admin", color: colors[0] },
+      { name: "Jamie Chen", email: "jamie@nexaflow.app", role: "member", color: colors[1] },
+    ].map((user) =>
+      User.updateOne(
+        { email: user.email },
+        {
+          $setOnInsert: {
+            ...user,
+            passwordHash,
+          },
+        },
+        { upsert: true },
+      ),
+    ));
+    return;
+  }
+
   const users = await User.insertMany([
-    { name: "Alex Morgan", email: "alex@orbit.app", role: "admin", color: colors[0], passwordHash },
-    { name: "Jamie Chen", email: "jamie@orbit.app", role: "member", color: colors[1], passwordHash },
-    { name: "Priya Patel", email: "priya@orbit.app", role: "member", color: colors[2], passwordHash },
-    { name: "Marcus Lee", email: "marcus@orbit.app", role: "member", color: colors[3], passwordHash },
-    { name: "Sofia Rossi", email: "sofia@orbit.app", role: "admin", color: colors[4], passwordHash },
-    { name: "Liam O'Brien", email: "liam@orbit.app", role: "member", color: colors[5], passwordHash },
-    { name: "Yuki Tanaka", email: "yuki@orbit.app", role: "member", color: colors[6], passwordHash },
+    { name: "Alex Morgan", email: "alex@nexaflow.app", role: "admin", color: colors[0], passwordHash },
+    { name: "Jamie Chen", email: "jamie@nexaflow.app", role: "member", color: colors[1], passwordHash },
+    { name: "Priya Patel", email: "priya@nexaflow.app", role: "member", color: colors[2], passwordHash },
+    { name: "Marcus Lee", email: "marcus@nexaflow.app", role: "member", color: colors[3], passwordHash },
+    { name: "Sofia Rossi", email: "sofia@nexaflow.app", role: "admin", color: colors[4], passwordHash },
+    { name: "Liam O'Brien", email: "liam@nexaflow.app", role: "member", color: colors[5], passwordHash },
+    { name: "Yuki Tanaka", email: "yuki@nexaflow.app", role: "member", color: colors[6], passwordHash },
   ]);
 
   const [alex, jamie, priya, marcus, sofia, liam, yuki] = users;

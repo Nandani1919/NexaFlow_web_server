@@ -1,7 +1,7 @@
 {
-  "name": "harmony-server",
+  "name": "nexaflow-server",
   "version": "1.0.0",
-  "description": "Express and MongoDB API for the Orbit project management application.",
+  "description": "Express and MongoDB API for the NexaFlow project management application.",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

@@ -7,7 +7,7 @@ healthRoutes.get("/", (_req, res) => {
   const db = getDatabaseHealth();
   res.status(db.status === "ok" ? 200 : 503).json({
     status: db.status,
-    service: "harmony-server",
+    service: "nexaflow-server",
     timestamp: new Date().toISOString(),
     database: db,
   });

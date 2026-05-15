@@ -19,7 +19,7 @@ export const signup = asyncHandler(async (req, res) => {
   const user = await User.create({
     name: payload.name,
     email: payload.email,
-    role: payload.role,
+    role: "member",
     passwordHash,
     color: colors[Math.floor(Math.random() * colors.length)],
   });
