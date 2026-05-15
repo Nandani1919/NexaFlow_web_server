@@ -17,7 +17,19 @@ import { workspaceRoutes } from "./routes/workspaceRoutes.js";
 export const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.clientUrls, credentials: true }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+
+    const isConfiguredOrigin = env.clientUrls.includes(origin);
+    const isRailwayOrigin = /^https:\/\/[a-z0-9-]+\.up\.railway\.app$/i.test(origin);
+
+    if (isConfiguredOrigin || isRailwayOrigin) return callback(null, true);
+
+    return callback(new Error(`CORS blocked origin: ${origin}`));
+  },
+  credentials: true,
+}));
 app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
