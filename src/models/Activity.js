@@ -7,6 +7,7 @@ const activitySchema = new mongoose.Schema(
     target: { type: String, required: true, trim: true },
     projectId: { type: mongoose.Schema.Types.ObjectId, ref: "Project", default: null },
   },
+  
   {
     timestamps: true,
     toJSON: {
