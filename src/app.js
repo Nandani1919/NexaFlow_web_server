@@ -16,15 +16,20 @@ import { workspaceRoutes } from "./routes/workspaceRoutes.js";
 
 export const app = express();
 
+const allowedOriginPatterns = [
+  /^https:\/\/harmony-workspace(?:-[a-z0-9-]+)?\.vercel\.app$/i,
+  /^https:\/\/[a-z0-9-]+\.up\.railway\.app$/i,
+];
+
 app.use(helmet());
 app.use(cors({
   origin(origin, callback) {
     if (!origin) return callback(null, true);
 
     const isConfiguredOrigin = env.clientUrls.includes(origin);
-    const isRailwayOrigin = /^https:\/\/[a-z0-9-]+\.up\.railway\.app$/i.test(origin);
+    const isAllowedPlatformOrigin = allowedOriginPatterns.some((pattern) => pattern.test(origin));
 
-    if (isConfiguredOrigin || isRailwayOrigin) return callback(null, true);
+    if (isConfiguredOrigin || isAllowedPlatformOrigin) return callback(null, true);
 
     return callback(new Error(`CORS blocked origin: ${origin}`));
   },

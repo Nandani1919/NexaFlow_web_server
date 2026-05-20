@@ -27,7 +27,7 @@ PORT=5000
 MONGODB_URI=mongodb://127.0.0.1:27017/nexaflow_project_management
 JWT_SECRET=replace-this-with-a-long-random-secret
 JWT_EXPIRES_IN=7d
-CLIENT_URL=http://localhost:8080,http://localhost:5173,https://your-frontend-domain.up.railway.app
+CLIENT_URL=http://localhost:8080,http://localhost:5173,https://harmony-workspace.vercel.app
 NODE_ENV=production
 AUTO_SEED=true
 ```
@@ -180,7 +180,7 @@ VITE_API_URL=http://localhost:5000/api
 For deployment, set the backend `CLIENT_URL` environment variable to the exact deployed frontend origin. For example:
 
 ```bash
-CLIENT_URL=https://nexaflowwebclient-production.up.railway.app
+CLIENT_URL=https://harmony-workspace.vercel.app
 NODE_ENV=production
 ```
 
