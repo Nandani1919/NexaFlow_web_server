@@ -44,13 +44,13 @@ app.get("/", (_req, res) => {
   res.json({ name: "nexaflow-server", status: "ok", docs: "/api/health" });
 });
 
-app.use("/api/health", healthRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/workspace", workspaceRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/tasks", taskRoutes);
-app.use("/api/team", teamRoutes);
-app.use("/api/notifications", notificationRoutes);
+app.use(["/api/health", "/health"], healthRoutes);
+app.use(["/api/auth", "/auth"], authRoutes);
+app.use(["/api/workspace", "/workspace"], workspaceRoutes);
+app.use(["/api/projects", "/projects"], projectRoutes);
+app.use(["/api/tasks", "/tasks"], taskRoutes);
+app.use(["/api/team", "/team"], teamRoutes);
+app.use(["/api/notifications", "/notifications"], notificationRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
